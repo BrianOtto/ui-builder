@@ -28,11 +28,11 @@ We make use of the following 3rd party libraries. Please consider donating to th
 
 [Ren-C](https://github.com/metaeducation/ren-c)
 
-A branch of the open-sourced, Rebol 3 interpreter. This is the magic that allows you to script your apps in Rebol and have two-way communicate with the JavaScript and your UI.
+A branch of the open-sourced, Rebol 3 interpreter. This is the magic that allows you to script your apps in Rebol and have two-way communication with the JavaScript and your UI.
 
 [UIkit](https://github.com/uikit/uikit)
 
-This is the CSS framework that allows your app to be mobile ready and have a modern, lightweight UI.
+This is the CSS framework that allows your apps to be mobile ready and have a modern, lightweight UI.
 
 
 [Font Awesome](https://github.com/FortAwesome/Font-Awesome)
