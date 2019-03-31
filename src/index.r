@@ -486,6 +486,7 @@ ui-export-download: js-native [
 
 ; TODO: get export [html] working
 ; TODO: get importing an exported app working
-; TODO: get Emterpreter working
 ; TODO: allow command history navigation with arrows
-; TODO: add a GitHub README and LICENSE
+
+; TODO: get Emterpreter working
+; see https://github.com/hostilefork/replpad-js/commit/e4def259b1d49ca3a805f5c326a3a6e951ac8cdb
