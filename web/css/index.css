@@ -1,0 +1,60 @@
+/* UIkit Overrides */
+
+.uk-notification-message {
+    border-color: #FFFFFF !important;
+    padding: 5px !important;
+    text-align: center !important;
+    font-size: 95% !important;
+}
+
+.uk-notification-message-primary {
+    background-color: #000000 !important;
+    color: #FFFFFF !important;
+}
+
+.uk-notification-message-danger {
+    background-color: #D85030 !important;
+    color: #FFFFFF !important;
+}
+
+.uk-offcanvas-bar {
+    width: 450px;
+}
+
+.uk-tooltip {
+    background-color: #000000;
+}
+
+/* UI Builder */
+
+#console {
+    padding-bottom: 5px;
+}
+
+#console > #input {
+    border: none;
+    outline: none;
+    margin-left: 5px;
+}
+
+#app > #header {
+    background-color: #000000;
+    color: #FFFFFF;
+    padding: 10px;
+}
+
+#app > #root {
+    padding-top: 40px;
+    
+    /* resolves a bug in UIkit where margin-left is set */
+    /* to -40px when there is nothing inside the grid   */
+    margin-left: 0px;
+}
+
+#app > #root > #canvas {
+    padding-left: 40px;
+}
+
+#app > #root > #info #currentShowHide {
+    width: 72px;
+}

@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>UI Builder</title>
+    
+    <link rel="stylesheet" href="css/uikit.min.css">
+    <link rel="stylesheet" href="css/index.css">
+    
+    <script src="js/uikit.min.js"></script>
+    
+    <script src="js/fontawesome.min.js"></script>
+    <script src="js/brands.min.js"></script>
+    <script src="js/solid.min.js"></script>
+</head>
+
+<body>
+    <div id="console">&gt;&gt;<input id="input" class="uk-width-2-3" type="text" autocomplete="off"></div>
+    
+    <div id="app">
+        <div id="header" class="uk-width-1-1">
+            <img src="logo.png" width="25" height="25">&nbsp;&nbsp;UI Builder
+        </div>
+        
+        <div id="root" class="uk-grid-divider uk-width-1-1" uk-grid>
+            <div id="canvas" class="uk-width-expand" data-type="col"></div>
+            
+            <div id="info" class="uk-width-1-3">
+                <h4><i class="fas fa-shapes uk-margin-small-right"></i>Current Element</h4>
+                
+                <hr class="margin-remove">
+                
+                <div uk-grid>
+                    <div class="uk-width-1-1">
+                        <div class="uk-grid-small uk-margin-remove-top" uk-grid>
+                            <div class="uk-width-1-5 uk-text-right"><strong>ID</strong></div>
+                            <div class="uk-width-expand" id="currentId">canvas</div>
+                        </div>
+                    
+                        <div class="uk-grid-small uk-margin-remove-top" uk-grid>
+                            <div class="uk-width-1-5 uk-text-right"><strong>Parent</strong></div>
+                            <div class="uk-width-expand" id="currentParent">root</div>
+                        </div>
+                    
+                        <div class="uk-grid-small uk-margin-remove-top" uk-grid>
+                            <div class="uk-width-1-5 uk-text-right"><strong>Type</strong></div>
+                            <div class="uk-width-expand" id="currentType">col</div>
+                        </div>
+                        
+                        <div class="uk-margin-top uk-text-center">
+                            <button class="uk-button uk-button-small uk-button-secondary" id="currentShowHide" disabled>Show</button>
+                            <button class="uk-button uk-button-small uk-button-secondary uk-margin-small-left" uk-toggle="target: #currentStyles">Styles</button>
+                            <button class="uk-button uk-button-small uk-button-secondary uk-margin-small-left" uk-toggle="target: #currentClasses">Classes</button>
+                            <button class="uk-button uk-button-small uk-button-secondary uk-margin-small-left" id="currentRemove"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                </div>
+                
+                <h4 class="uk-margin-top"><i class="fas fa-keyboard uk-margin-small-right"></i>Commands</h4><hr class="margin-remove">
+                
+                <div uk-grid>
+                    <div class="uk-width-1-1">
+                        <div class="uk-grid-small uk-margin-remove-top" uk-grid>
+                            <div class="uk-width-1-5 uk-text-right"><strong>add</strong></div>
+                            <div class="uk-width-expand">row | col | button | text | icon | video [<span class="uk-text-primary">&lt;id&gt;</span>]</div>
+                        </div>
+                        
+                        <div class="uk-grid-small uk-margin-remove-top" uk-grid>
+                            <div class="uk-width-1-5 uk-text-right"><strong>get</strong></div>
+                            <div class="uk-width-expand"><span class="uk-text-primary">&lt;id&gt;</span> | parent</div>
+                        </div>
+                        
+                        <div class="uk-grid-small uk-margin-remove-top" uk-grid>
+                            <div class="uk-width-1-5 uk-text-right"><strong>set</strong></div>
+                            <div class="uk-width-expand"><span class="uk-text-primary">&lt;attribute&gt;</span> | <span class="uk-text-primary">&lt;style&gt;</span> <span class="uk-text-primary">&lt;value&gt;</span></div>
+                        </div>
+                        
+                        <div class="uk-grid-small uk-margin-remove-top" uk-grid>
+                            <div class="uk-width-1-5 uk-text-right"><strong>hide</strong></div>
+                            <div class="uk-width-expand">layout | ids</div>
+                        </div>
+                        
+                        <div class="uk-grid-small uk-margin-remove-top" uk-grid>
+                            <div class="uk-width-1-5 uk-text-right"><strong>show</strong></div>
+                            <div class="uk-width-expand">layout | ids</div>
+                        </div>
+                        
+                        <div class="uk-grid-small uk-margin-remove-top" uk-grid>
+                            <div class="uk-width-1-5 uk-text-right"><strong>move</strong></div>
+                            <div class="uk-width-expand">to <span class="uk-text-primary">&lt;id&gt;</span></div>
+                        </div>
+                        
+                        <div class="uk-grid-small uk-margin-remove-top" uk-grid>
+                            <div class="uk-width-1-5 uk-text-right"><strong>export</strong></div>
+                            <div class="uk-width-expand"></div>
+                        </div>
+                        
+                        <div class="uk-grid-small uk-margin-remove-top" uk-grid>
+                            <div class="uk-width-1-5 uk-text-right"><strong>exit</strong></div>
+                            <div class="uk-width-expand"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="currentStyles" uk-offcanvas="flip: true">
+                    <div class="uk-offcanvas-bar">
+                        <button class="uk-offcanvas-close" type="button" uk-close></button>
+                        
+                        <h1 class="uk-heading-bullet">Styles</h1>
+                        
+                        This will eventually display all the element's styles and allow you to update multiple ones.
+                    </div>
+                </div>
+                
+                <div id="currentClasses" uk-offcanvas="flip: true">
+                    <div class="uk-offcanvas-bar">
+                        <button class="uk-offcanvas-close" type="button" uk-close></button>
+                        
+                        <h1 class="uk-heading-bullet">Classes</h1>
+                        
+                        This will allow you to adjust the element's classes.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="js/libr3.js"></script>
+    <script src="js/index.js"></script>
+</body>
+
+</html>

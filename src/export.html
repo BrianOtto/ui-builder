@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>Built by UI Builder</title>
+    
+    <style>/*CSS-UIKIT*/</style>
+    <style>/*CSS-INDEX*/</style>
+    
+    <script>/*JS-UIKIT*/</script>
+    <script>/*JS-FA-BRANDS*/</script>
+    <script>/*JS-FA-SOLID*/</script>
+    <script>/*JS-FA*/</script>
+    
+    <script>
+        var runCommand
+        
+        if (typeof caches !== 'undefined') {
+            caches.keys().then(function(names) {
+                for (let name of names) {
+                    caches.delete(name)
+                }
+            })
+        }
+        
+        let uiLib = 'data:application/javascript;base64,%LIB%'
+        let uiWorker = 'data:application/javascript;base64,%WORKER%'
+        let uiExport = 'data:application/rebol;base64,%EXPORT%'
+        
+        /*UI-DB*/
+        
+        let hasWasm = typeof WebAssembly === 'object'
+        let hasShared = typeof SharedArrayBuffer !== 'undefined'
+        var hasThreads = false
+        
+        if (hasWasm && hasShared) {
+            let test = new WebAssembly.Memory({
+                'initial': 0, 'maximum': 0, 'shared': true
+            })
+            
+            hasThreads = (test.buffer instanceof SharedArrayBuffer)
+        }
+        
+        if (hasWasm && hasThreads) {
+            new uiDB().addScript('lib.js', uiLib, function(result) {
+                console.log('UI Builder - Added lib.js', result)
+                
+                new uiDB().addScript('worker.js', uiWorker, function(result) {
+                    console.log('UI Builder - Added worker.js', result)
+                    
+                    new uiDB().getScript('lib.js', function(result) {
+                        console.log('UI Builder - lib.js to URL', result)
+                        
+                        var script = document.createElement('script')
+                        
+                        // Chrome turns URL blobs into file:/// and these don't accept ? params
+                        // TODO: This may lead to caching issues. I will have to test this and see.
+                        script.src = result + ((result.includes('file:///')) ? '' : '?v=' + new Date().getTime())
+                        
+                        script.onload = function() {
+                            console.log('UI Builder - lib.js loaded', result)
+                            
+                            workersAreLoaded = function() {
+                                if (runDependencyWatcher !== null) {
+                                    setTimeout(workersAreLoaded, 100)
+                                } else {
+                                    Promise.resolve(null)
+                                    .then(function() {
+                                        console.log('UI Builder - Ren-C Startup')
+                                        
+                                        reb.Startup()
+                                        
+                                        console.log('UI Builder - Ren-C Extensions')
+                                        
+                                        reb.Elide(
+                                            'for-each collation builtin-extensions',
+                                            '[load-extension collation]'
+                                        )
+                                    })
+                                    .then(function() {
+                                        console.log('UI Builder - Running export.r')
+                                        
+                                        reb.Elide(new uiDB().decodeURI(uiExport, false))
+                                        
+                                        return reb.Promise('ui-main')
+                                    })
+                                }
+                            }
+                            
+                            setTimeout(workersAreLoaded, 0)
+                        }
+                        
+                        script.onerror = function(e) {
+                            // TODO: add better styling and a more helpful message
+                            var msg = 'Your browser does not support loading local resources.<br>Please review the <a href="#">requirements</a> for running this application.<br><br>'
+                            msg += 'If you are running Chrome then please start the browser with the following flag <b>--allow-file-access-from-files</b><br><br>e.g. start "" chrome --allow-file-access-from-files'
+                            UIkit.modal.alert('<div class="uk-alert-danger" uk-alert>' + msg + '</div>')
+                        }
+                        
+                        document.head.appendChild(script)
+                    }, true, true)
+                })
+            })
+        } else {
+            // TODO: get Emterpreter working
+            // TODO: add better styling and a more helpful message
+            var msg = 'Your browser does not support WASM or PTHREADS.<br>Please review the <a href="#">requirements</a> for running this application.'
+            UIkit.modal.alert('<div class="uk-alert-danger" uk-alert>' + msg + '</div>')
+        }
+    </script>
+</head>
+
+<body>
+    <!--APP-->
+</body>
+
+</html>

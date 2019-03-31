@@ -1,0 +1,277 @@
+var runCommand
+
+var allElementIds = []
+var currentToggle = { id: '', border: '' }
+
+newId = function(type) {
+    let max = allElementIds.length
+    
+    for (var i = 0; i <= max; i++) {
+        var id = type + parseInt(i + 1)
+        
+        if (allElementIds.indexOf(id) == -1) {
+            break
+        }
+    }
+    
+    return id
+}
+
+getId = function(id) {
+    var exists = false
+    
+    for (i in allElementIds) {
+        if (allElementIds[i] == id) {
+            exists = true
+            break
+        }
+    }
+    
+    return exists
+}
+
+addElement = function(add, more) {
+    var current = document.querySelector('#currentId')
+    var element = document.querySelector('#' + current.innerHTML)
+    
+    var elementType = element.getAttribute('data-type')
+    var addType = add.getAttribute('data-type')
+    
+    if (elementType == 'button') {
+        if (addType != 'text' && addType != 'icon') {
+            showError('You can not add a ' + addType + ' to a button')
+            return
+        }
+    }
+    
+    if (addType == 'icon') {
+        if (elementType != 'button' && elementType != 'col') {
+            showError('You can not add an icon to a ' + elementType)
+            return
+        }
+    }
+    
+    if (elementType == 'row' && addType != 'col') {
+        showError('You must add a column first')
+        return
+    }
+    
+    if (elementType == 'button' && addType == 'text') {
+        var span = document.querySelector('#' + element.id + ' > span')
+        if (span) { span.remove() }
+    }
+    
+    if (elementType == 'button' && addType == 'icon') {
+        var icon = document.querySelector('#' + element.id + ' > i')
+        if (icon) { icon.remove() }
+        
+        add.className += ' uk-margin-small-left'
+    }
+    
+    if (getId(add.id)) {
+        showError('You have already used this id')
+        return
+    } else {
+        allElementIds.push(add.id)
+    }
+    
+    add.setAttribute('uk-tooltip', '#' + add.id)
+    
+    if (elementType == 'button' && addType == 'text') {
+        element.insertBefore(add, element.firstChild)
+    } else {
+        element.appendChild(add)
+    }
+    
+    // resolves a bug in UIkit where margin-left is set
+    // to -40px when there is nothing inside the grid
+    if (add.hasAttribute('uk-grid')) {
+        add.style.marginLeft = '0px'
+    }
+    
+    // continue adding to the current parent
+    if (more == 1 || addType == 'text' || addType == 'icon') {
+        if (add.nodeName == 'DIV') {
+            add.style.border = '1px dashed #FF0000'
+        }
+    } else {
+        toggleCurrent(true)
+        
+        updateCurrent(add)
+        
+        if (add.nodeName == 'DIV') {
+            toggleCurrent()
+        }
+    }
+}
+
+toggleCurrent = function(hideOnly) {
+    var current = document.querySelector('#currentId')
+    var element = document.querySelector('#' + current.innerHTML)
+    
+    if (currentToggle.id == element.id) {
+        if (element.nodeName != 'DIV') {
+            if (currentToggle.border != '') {
+                element.style.border = currentToggle.border
+            } else {
+                element.style.border = ''
+            }
+        }
+        
+        document.querySelector('#currentShowHide').innerHTML = 'Show'
+        currentToggle = { id: '', border: '' }
+    } else if (hideOnly !== true) {
+        if (element.id != 'canvas') {
+            var border = (element.style.border) ? element.style.border : ''
+            currentToggle = { id: element.id, border: border }
+            document.querySelector('#currentShowHide').innerHTML = 'Hide'
+            
+            element.style.border = '1px dashed #FF0000'
+        }
+    }
+}
+
+updateCurrent = function(element) {
+    document.querySelector('#currentId').innerHTML = element.id
+    document.querySelector('#currentParent').innerHTML = element.parentNode.id
+    document.querySelector('#currentType').innerHTML = element.getAttribute('data-type')
+    
+    if (element.nodeName == 'DIV') {
+        document.querySelector('#currentShowHide').disabled = true
+    } else {
+        document.querySelector('#currentShowHide').disabled = false
+    }
+}
+
+removeCurrent = function(hideOnly) {
+    var current = document.querySelector('#currentId')
+    var element = document.querySelector('#' + current.innerHTML)
+    
+    if (element.id == 'canvas') {
+        showError('You can not remove the canvas')
+    } else {
+        var parentNode = element.parentNode
+        
+        element.remove()
+        
+        updateCurrent(parentNode)
+    }
+}
+
+showAlert = function(message) {
+    UIkit.notification({
+        message : '<i class="fas fa-info-circle uk-margin-small-right"></i>' + message,
+        status  : 'primary',
+        timeout : 5000,
+        pos     : 'top-center'
+    })
+}
+
+showError = function(message) {
+    UIkit.notification({
+        message : '<i class="fas fa-exclamation-triangle uk-margin-small-right"></i>' + message,
+        status  : 'danger',
+        timeout : 5000,
+        pos     : 'top-center'
+    })
+}
+
+document.addEventListener('click', function(e) {
+    if (e.target) {
+        switch (e.target.id) {
+            case 'currentShowHide' :
+                toggleCurrent()
+                break
+            case 'currentRemove' :
+                removeCurrent()
+                break
+        }
+    }
+})
+
+document.querySelector('#input').onkeydown = function(e) {
+    if (e.keyCode == 13) {
+        var command = "ui-parse {" + this.value + "}"
+        
+        // see lib/input @ export.r
+        runCommand(reb.Text(command))
+        
+        this.value = ''
+        
+        e.preventDefault()
+    }
+}
+
+window.addEventListener('load', function() {
+    document.querySelector('#input').focus()
+    
+    if (typeof caches !== 'undefined') {
+        caches.keys().then(function(names) {
+            for (let name of names) {
+                caches.delete(name)
+            }
+        })
+    }
+    
+    let hasWasm = typeof WebAssembly === 'object'
+    let hasShared = typeof SharedArrayBuffer !== 'undefined'
+    var hasThreads = false
+    
+    if (hasWasm && hasShared) {
+        let test = new WebAssembly.Memory({
+            'initial': 0, 'maximum': 0, 'shared': true
+        })
+        
+        hasThreads = (test.buffer instanceof SharedArrayBuffer)
+    }
+    
+    if (hasWasm && hasThreads) {
+        workersAreLoaded = function() {
+            if (runDependencyWatcher !== null) {
+                setTimeout(workersAreLoaded, 100)
+            } else {
+                Promise.resolve(null)
+                .then(function() {
+                    // init Ren-C
+                    reb.Startup()
+                    
+                    // load the extensions
+                    reb.Elide(
+                        'for-each collation builtin-extensions',
+                        '[load-extension collation]'
+                    )
+                    
+                    // grab the UI Builder functions
+                    return fetch('index.r')
+                    .then(function(response) {
+                        return response.text()
+                    })
+                    .then(function(text) {
+                        // load the UI Builder functions
+                        reb.Elide(text)
+                        
+                        // grab the Ren-C functions
+                        return fetch('export.r')
+                        .then(function(response) {
+                            return response.text()
+                        })
+                        .then(function(text) {
+                            // load the Ren-C functions
+                            reb.Elide(text)
+                            
+                            // init the console
+                            return reb.Promise('ui-main')
+                        })
+                    })
+                })
+            }
+        }
+        
+        setTimeout(workersAreLoaded, 0)
+    } else {
+        // TODO: get Emterpreter working
+        // TODO: add better styling and a more helpful message
+        var msg = 'Your browser does not support WASM or PTHREADS.<br>Please review the <a href="#">requirements</a> for running this application.'
+        UIkit.modal.alert('<div class="uk-alert-danger" uk-alert>' + msg + '</div>')
+    }
+})
