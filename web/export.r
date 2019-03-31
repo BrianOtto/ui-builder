@@ -12,7 +12,10 @@ lib/write-stdout: write-stdout: function [
     if char? text [text: my to-text]
     
     ; log errors only
-    if find text "**" [ui-main-write text]
+    if find text "**" [ui-main-write text exit]
+    
+    ; or probe debugging
+    if find text "^"" [if text <> "^"^"" [ui-main-write text]]
 ]
 
 lib/input: input: js-awaiter [

@@ -19,27 +19,42 @@ ui-parse: function [
     matched: false
     
     parse dsl rules: [ any [
-        "add " copy element thru [" " | end] copy id thru [" " | end] copy params to end
+        "add " copy element to [" " | end] copy params to end
             (matched: true)
             
-            ; quotes are optional around the id
-            (trim element trim id trim/with id "^"" trim params)
+            (trim params)
             
-            ; js-native will return a void
+            (id: mold "" parts: split params " ")
+            
             (if not void? attempt [
                 if not null? find ["text" "icon" "video"] element [
-                    if params == "" [
-                        either id == "" [
-                            ui-error "You are missing a required parameter"
-                            return
+                    either (length? parts) == 0 [
+                        ui-error "You are missing a required parameter"
+                        return
+                    ][
+                        either any [
+                            (first parts/1) == #"^"" 
+                            (length? parts) == 1
                         ][
-                            params: mold id
-                            id: ""
+                            id: mold ""
+                            
+                            string: form parts
+                            trim/with string "^""
+                            
+                            params: mold string
+                        ][
+                            id: mold parts/1
+                            
+                            remove parts
+                            string: form parts
+                            trim/with string "^""
+                            
+                            params: mold string
                         ]
                     ]
                 ]
                 
-                do rejoin ["ui-" element "/add " mold id " " params]
+                do rejoin ["ui-" element "/add " id " " params]
              ][
                 ui-error "You have entered an invalid command"
              ])
@@ -243,6 +258,8 @@ ui-video: js-native [
     
     // http://www.youtube.com/embed/dQw4w9WgXcQ (doesn't work on file://)
     // http://www.youtube.com/embed/cSp1dM2Vj48
+    
+    // TODO: detect https:// and update the url to match
     
     var video = document.createElement('iframe')
     video.setAttribute('data-type', 'video')
@@ -469,3 +486,6 @@ ui-export-download: js-native [
 
 ; TODO: get export [html] working
 ; TODO: get importing an exported app working
+; TODO: get Emterpreter working
+; TODO: allow command history navigation with arrows
+; TODO: add a GitHub README and LICENSE
