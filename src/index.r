@@ -27,7 +27,7 @@ ui-parse: function [
             (id: mold "" parts: split params " ")
             
             (if not void? attempt [
-                if not null? find ["text" "icon" "video"] element [
+                if find ["text" "icon" "video"] element [
                     either (length? parts) == 0 [
                         ui-error "You are missing a required parameter"
                         return
