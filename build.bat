@@ -9,6 +9,8 @@ ECHO.
 
 REM Clean up the ouput directory
 FOR %%i IN ("%WEB%\*") DO DEL /Q "%%i"
+FOR %%i IN ("%WEB%\css\*") DO DEL /Q "%%i"
+FOR %%i IN ("%WEB%\js\*") DO DEL /Q "%%i"
 
 IF NOT EXIST "%WEB%" MKDIR "%WEB%"
 IF NOT EXIST "%WEB%\css" MKDIR "%WEB%\css"

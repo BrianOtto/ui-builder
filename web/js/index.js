@@ -194,7 +194,7 @@ document.querySelector('#input').onkeydown = function(e) {
         var command = "ui-parse {" + this.value + "}"
         
         // see lib/input @ export.r
-        runCommand(reb.Text(command))
+        runCommand(command)
         
         this.value = ''
         
@@ -225,53 +225,60 @@ window.addEventListener('load', function() {
         hasThreads = (test.buffer instanceof SharedArrayBuffer)
     }
     
+    var libr3 = document.createElement('script')
+    
     if (hasWasm && hasThreads) {
-        workersAreLoaded = function() {
-            if (runDependencyWatcher !== null) {
-                setTimeout(workersAreLoaded, 100)
-            } else {
-                Promise.resolve(null)
-                .then(function() {
-                    // init Ren-C
-                    reb.Startup()
-                    
-                    // load the extensions
-                    reb.Elide(
-                        'for-each collation builtin-extensions',
-                        '[load-extension collation]'
-                    )
-                    
-                    // grab the UI Builder functions
-                    return fetch('index.r')
-                    .then(function(response) {
-                        return response.text()
-                    })
-                    .then(function(text) {
-                        // load the UI Builder functions
-                        reb.Elide(text)
-                        
-                        // grab the Ren-C functions
-                        return fetch('export.r')
-                        .then(function(response) {
-                            return response.text()
-                        })
-                        .then(function(text) {
-                            // load the Ren-C functions
-                            reb.Elide(text)
-                            
-                            // init the console
-                            return reb.Promise('ui-main')
-                        })
-                    })
-                })
-            }
-        }
-        
-        setTimeout(workersAreLoaded, 0)
+        libr3.src = 'js/libr3-emscripten.js'
     } else {
-        // TODO: get Emterpreter working
+        libr3.src = 'js/libr3-emterpreter.js'
+        
         // TODO: add better styling and a more helpful message
         var msg = 'Your browser does not support WASM or PTHREADS.<br>Please review the <a href="#">requirements</a> for running this application.'
         UIkit.modal.alert('<div class="uk-alert-danger" uk-alert>' + msg + '</div>')
     }
+    
+    document.body.appendChild(libr3)
+    
+    workersAreLoaded = function() {
+        if (typeof runDependencyWatcher === 'undefined' || runDependencyWatcher !== null) {
+            setTimeout(workersAreLoaded, 100)
+        } else {
+            Promise.resolve(null)
+            .then(function() {
+                // init Ren-C
+                reb.Startup()
+                
+                // load the extensions
+                reb.Elide(
+                    'for-each collation builtin-extensions',
+                    '[load-extension collation]'
+                )
+                
+                // grab the UI Builder functions
+                return fetch('index.r')
+                .then(function(response) {
+                    return response.text()
+                })
+                .then(function(text) {
+                    // load the UI Builder functions
+                    reb.Elide(text)
+                    
+                    // grab the Ren-C functions
+                    return fetch('export.r')
+                    .then(function(response) {
+                        return response.text()
+                    })
+                    .then(function(text) {
+                        // load the Ren-C functions
+                        reb.Elide(text)
+                        
+                        // init the console
+                        return reb.Promise('ui-main')
+                    })
+                })
+            })
+        }
+    }
+    
+    setTimeout(workersAreLoaded, 0)
 })

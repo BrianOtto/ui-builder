@@ -22,7 +22,9 @@ lib/input: input: js-awaiter [
     return: [text!]
 ]{
     return new Promise(function(resolve, reject) {
-        runCommand = resolve
+        runCommand = function(text) {
+            resolve(reb.Text(text))
+        }
     })
 }
 

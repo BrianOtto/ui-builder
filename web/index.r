@@ -27,7 +27,7 @@ ui-parse: function [
             (id: mold "" parts: split params " ")
             
             (if not void? attempt [
-                if not null? find ["text" "icon" "video"] element [
+                if find ["text" "icon" "video"] element [
                     either (length? parts) == 0 [
                         ui-error "You are missing a required parameter"
                         return
@@ -289,7 +289,7 @@ ui-set: js-native [
     var element = document.querySelector('#' + current.innerHTML)
     
     if (property == 'onclick') {
-        element.setAttribute('onclick', 'runCommand(reb.Text(\'' + value + '\'))')
+        element.setAttribute('onclick', 'runCommand(\'' + value + '\')')
     } else {
         if (CSS.supports(property, value)) {
             element.style[property] = value
@@ -410,7 +410,7 @@ ui-export: function [][
     
     ; libr3.js
     
-    lib: read %js/libr3.js
+    lib: read %js/libr3-emscripten.js
     lib: rejoin [js-ui-db "^/^/" lib]
     
     script-find: "pthreadMainJs = locateFile(pthreadMainJs);"
@@ -425,7 +425,7 @@ ui-export: function [][
     
     ; libr3.worker.js
     
-    worker: read %js/libr3.worker.js
+    worker: read %js/libr3-emscripten.worker.js
     worker: rejoin [js-ui-db "^/^/" worker]
     
     replace/all worker "importScripts" "// importScripts"
@@ -486,6 +486,4 @@ ui-export-download: js-native [
 
 ; TODO: get export [html] working
 ; TODO: get importing an exported app working
-; TODO: get Emterpreter working
 ; TODO: allow command history navigation with arrows
-; TODO: add a GitHub README and LICENSE
