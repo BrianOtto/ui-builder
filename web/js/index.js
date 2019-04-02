@@ -228,8 +228,10 @@ window.addEventListener('load', function() {
     var libr3 = document.createElement('script')
     
     if (hasWasm && hasThreads) {
+        console.log('UI Builder - Using Emscripten')
         libr3.src = 'js/libr3-emscripten.js'
     } else {
+        console.log('UI Builder - Using Emterpreter')
         libr3.src = 'js/libr3-emterpreter.js'
         
         var msg = '<i class="fas fa-exclamation-triangle fa-2x"></i><h3>Performance Warning</h3><br><br>Your browser does not have WebAssembly Threads or SharedArrayBuffer enabled. This application runs much faster when those are turned on. Please consider enabling this by following these <a href="https://github.com/hostilefork/replpad-js/wiki/Enable-WASM-Threads" target="_blank">instructions</a>.'
