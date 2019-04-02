@@ -1,2 +1,2 @@
 
-insert ldflags {-s TOTAL_MEMORY=50331648}
+insert ldflags {-s TOTAL_MEMORY=75497472}

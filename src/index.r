@@ -408,7 +408,7 @@ ui-export: function [][
     replace content "/*JS-FA*/" js-fa
     replace content "/*UI-DB*/" js-ui-db
     
-    ; libr3.js
+    ; libr3-emscripten.js
     
     lib: read %js/libr3-emscripten.js
     lib: rejoin [js-ui-db "^/^/" lib]
@@ -423,7 +423,7 @@ ui-export: function [][
     
     replace content "%LIB%" enbase lib
     
-    ; libr3.worker.js
+    ; libr3-emscripten.worker.js
     
     worker: read %js/libr3-emscripten.worker.js
     worker: rejoin [js-ui-db "^/^/" worker]
@@ -439,6 +439,14 @@ ui-export: function [][
     replace worker script-find rejoin [script-replace script-find]
     
     replace content "%WORKER%" enbase worker
+    
+    ; TODO: make Emterpreter optional to reduce file size
+    
+    ; libr3-emterpreter.js
+    
+    emt: read %js/libr3-emterpreter.js
+    
+    replace content "%LIBEMT%" enbase emt
     
     ; export.r
     
