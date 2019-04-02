@@ -16,7 +16,7 @@ Install a web server and point it to the [web](web) directory.
 
 ## Build Instructions
 
-If you make changes to the project then you will need to run the [build script](build.bat) to generate new files in the web directory. This build script only works in Windows right now, but I plan on writing a bash script for Linux / macOS soon.
+If you make changes to the project then you will need to run the [build script](build.bat) to generate new files in the web directory. This build script only works in Windows right now, but there will be a bash script for Linux / macOS soon.
 
 ## Documentation
 
