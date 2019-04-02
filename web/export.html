@@ -64,7 +64,7 @@
                             console.log('UI Builder - lib.js loaded', result)
                             
                             workersAreLoaded = function() {
-                                if (runDependencyWatcher !== null) {
+                                if (typeof runDependencyWatcher === 'undefined' || runDependencyWatcher !== null) {
                                     setTimeout(workersAreLoaded, 100)
                                 } else {
                                     Promise.resolve(null)
@@ -94,7 +94,7 @@
                         }
                         
                         script.onerror = function(e) {
-                            // TODO: add better styling and a more helpful message
+                            // TODO: add a more helpful message
                             var msg = 'Your browser does not support loading local resources.<br>Please review the <a href="#">requirements</a> for running this application.<br><br>'
                             msg += 'If you are running Chrome then please start the browser with the following flag <b>--allow-file-access-from-files</b><br><br>e.g. start "" chrome --allow-file-access-from-files'
                             UIkit.modal.alert('<div class="uk-alert-danger" uk-alert>' + msg + '</div>')
@@ -105,9 +105,7 @@
                 })
             })
         } else {
-            // TODO: get Emterpreter working
-            // TODO: add better styling and a more helpful message
-            var msg = 'Your browser does not support WASM or PTHREADS.<br>Please review the <a href="#">requirements</a> for running this application.'
+            var msg = '<i class="fas fa-exclamation-triangle fa-2x"></i><h3>Performance Warning</h3><br><br>Your browser does not have WebAssembly Threads or SharedArrayBuffer enabled. This application runs much faster when those are turned on. Please consider doing this by following these <a href="https://github.com/hostilefork/replpad-js/wiki/Enable-WASM-Threads" target="_blank">instructions</a>.'
             UIkit.modal.alert('<div class="uk-alert-danger" uk-alert>' + msg + '</div>')
         }
     </script>

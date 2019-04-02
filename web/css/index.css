@@ -17,6 +17,19 @@
     color: #FFFFFF !important;
 }
 
+.uk-modal h3 {
+    display: inline;
+    margin-left: 15px;
+}
+
+.uk-modal .uk-alert {
+    padding-right: 0px;
+}
+
+.uk-modal .uk-button-primary {
+    background-color: #000000 !important;
+}
+
 .uk-offcanvas-bar {
     width: 450px;
 }

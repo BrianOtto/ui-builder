@@ -232,9 +232,10 @@ window.addEventListener('load', function() {
     } else {
         libr3.src = 'js/libr3-emterpreter.js'
         
-        // TODO: add better styling and a more helpful message
-        var msg = 'Your browser does not support WASM or PTHREADS.<br>Please review the <a href="#">requirements</a> for running this application.'
-        UIkit.modal.alert('<div class="uk-alert-danger" uk-alert>' + msg + '</div>')
+        var msg = '<i class="fas fa-exclamation-triangle fa-2x"></i><h3>Performance Warning</h3><br><br>Your browser does not have WebAssembly Threads or SharedArrayBuffer enabled. This application runs much faster when those are turned on. Please consider doing this by following these <a href="https://github.com/hostilefork/replpad-js/wiki/Enable-WASM-Threads" target="_blank">instructions</a>.'
+        UIkit.modal.alert('<div class="uk-alert-danger" uk-alert>' + msg + '</div>').then(function() {
+            document.querySelector('#input').focus()
+        })
     }
     
     document.body.appendChild(libr3)
