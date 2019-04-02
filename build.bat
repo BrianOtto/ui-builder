@@ -19,6 +19,7 @@ IF NOT EXIST "%WEB%\js" MKDIR "%WEB%\js"
 REM Copy our 3rd party libraries to the web directory
 XCOPY /Y src\lib\fontawesome\*.js "%WEB%\js" 1>NUL
 XCOPY /Y src\lib\ren-c\*.js "%WEB%\js" 1>NUL
+XCOPY /Y src\lib\ren-c\*.base64 "%WEB%\js" 1>NUL
 XCOPY /Y src\lib\uikit\*.js "%WEB%\js" 1>NUL
 XCOPY /Y src\lib\uikit\*.css "%WEB%\css" 1>NUL
 

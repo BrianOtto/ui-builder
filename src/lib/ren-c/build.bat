@@ -44,15 +44,6 @@ IF %ERRORLEVEL% NEQ 0 (
     GOTO :EOF
 )
 
-REM Rename the libraries
-MOVE libr3.js libr3-emscripten.js 1>NUL
-MOVE libr3.worker.js libr3-emscripten.worker.js 1>NUL
-
-REM Get the last exit code and stop the batch script when there's an error
-IF %ERRORLEVEL% NEQ 0 (
-    GOTO :EOF
-)
-
 REM Clean up the build files
 RMDIR /S /Q objs
 RMDIR /S /Q prep
@@ -92,14 +83,6 @@ IF %ERRORLEVEL% NEQ 0 (
 
 REM Embed the libraries into each other
 "%RENC%\prebuilt\r3-windows-x86-8994d23" build-emterpreter.r
-
-REM Get the last exit code and stop the batch script when there's an error
-IF %ERRORLEVEL% NEQ 0 (
-    GOTO :EOF
-)
-
-REM Rename the libraries
-MOVE libr3.js libr3-emterpreter.js 1>NUL
 
 REM Get the last exit code and stop the batch script when there's an error
 IF %ERRORLEVEL% NEQ 0 (

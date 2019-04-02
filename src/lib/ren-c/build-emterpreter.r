@@ -13,8 +13,15 @@ module: rejoin [
 
 lib-js: rejoin [module "^/^/" lib-js]
 
-write %libr3.js lib-js
+write %libr3-emterpreter.js lib-js
 
-delete %libr3.wasm
+; Export for lib.js
+
+write %libr3-emterpreter.js.base64 enbase lib-js
+
+; Clean up
+
+delete %libr3.js
 delete %libr3.bytecode
+delete %libr3.wasm
 delete %libr3.js.orig.js

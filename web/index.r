@@ -408,51 +408,19 @@ ui-export: function [][
     replace content "/*JS-FA*/" js-fa
     replace content "/*UI-DB*/" js-ui-db
     
-    ; libr3-emscripten.js
+    ; lib.js and worker.js for Emscripten
     
-    lib: read %js/libr3-emscripten.js
-    lib: rejoin [js-ui-db "^/^/" lib]
+    replace content "%LIB%" read %js/libr3-emscripten.js.base64
+    replace content "%WORKER%" read %js/libr3-emscripten.worker.js.base64
     
-    script-find: "pthreadMainJs = locateFile(pthreadMainJs);"
-    script-replace: "new uiDB().getScript('worker.js', function(pthreadMainJs) { "
-    replace lib script-find script-replace
-    
-    script-find: "getNewWorker: function() {"
-    script-replace: "true, true) }, "
-    replace lib script-find rejoin [script-replace script-find]
-    
-    replace content "%LIB%" enbase lib
-    
-    ; libr3-emscripten.worker.js
-    
-    worker: read %js/libr3-emscripten.worker.js
-    worker: rejoin [js-ui-db "^/^/" worker]
-    
-    replace/all worker "importScripts" "// importScripts"
-    
-    script-find: "if (typeof FS !== 'undefined'"
-    script-replace: "new uiDB().getScript('lib.js', function(result) { importScripts(result); "
-    replace worker script-find rejoin [script-replace script-find]
-    
-    script-find: "} else if (e.data.cmd === 'objectTransfer') {"
-    script-replace: "}, true, true) "
-    replace worker script-find rejoin [script-replace script-find]
-    
-    replace content "%WORKER%" enbase worker
+    ; lib.js for Emterpreter
     
     ; TODO: make Emterpreter optional to reduce file size
-    
-    ; libr3-emterpreter.js
-    
-    emt: read %js/libr3-emterpreter.js
-    
-    replace content "%LIBEMT%" enbase emt
+    replace content "%LIBEMT%" read %js/libr3-emterpreter.js.base64
     
     ; export.r
     
-    export: read %export.r
-    
-    replace content "%EXPORT%" enbase export
+    replace content "%EXPORT%" enbase read %export.r
     
     ui-export-download to text! content
 ]
