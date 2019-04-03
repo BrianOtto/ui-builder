@@ -159,6 +159,13 @@ removeCurrent = function(hideOnly) {
     }
 }
 
+updateCode = function() {
+    let code = document.querySelector('#code').value
+    if (code != '') { runCommand(code) }
+    
+    document.querySelector('#input').focus()
+}
+
 showAlert = function(message) {
     UIkit.notification({
         message : '<i class="fas fa-info-circle uk-margin-small-right"></i>' + message,
@@ -187,12 +194,7 @@ document.addEventListener('click', function(e) {
                 removeCurrent()
                 break
             case 'codeButtonSave' :
-                // TODO: put into a function and add error handling
-                let code = document.querySelector('#code').value
-                if (code != '') { runCommand(code) }
-                
-                document.querySelector('#input').focus()
-                
+                updateCode()
                 break
         }
     }
@@ -224,6 +226,18 @@ document.querySelector('#upload').onchange = function(e) {
         
         let body = html.querySelector('body').innerHTML
         document.querySelector('#canvas').innerHTML = body
+        
+        let codeFind = /let uiCode = 'data:application\/rebol;base64,(.*)'/g
+        let codeMatches = codeFind.exec(contents)
+        
+        if (typeof codeMatches[1] !== 'undefined') {
+            try {
+                document.querySelector('#code').value = atob(codeMatches[1])
+                updateCode()
+            } catch(e) {
+                showError('There was an error importing the Rebol code')
+            }
+        }
         
         // document.querySelector('#loader').remove()
     }
