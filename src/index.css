@@ -87,3 +87,13 @@
 #app > #root > #info #currentShowHide {
     width: 72px;
 }
+
+#codeEditor > div {
+    width: 50vw !important;
+    opacity: 0.8;
+}
+
+#codeEditor #code {
+    height: 50vh;
+    margin-bottom: 10px;
+}

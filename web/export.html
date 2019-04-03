@@ -18,6 +18,9 @@
     <script>
         var runCommand
         
+        // TODO: make this configurable
+        var debug = false
+        
         if (typeof caches !== 'undefined') {
             caches.keys().then(function(names) {
                 for (let name of names) {
@@ -30,6 +33,7 @@
         let uiLibEmt = 'data:application/javascript;base64,%LIBEMT%'
         let uiWorker = 'data:application/javascript;base64,%WORKER%'
         let uiExport = 'data:application/rebol;base64,%EXPORT%'
+        let uiCode = 'data:application/rebol;base64,%CODE%'
         
         /*UI-DB*/
         
@@ -91,6 +95,14 @@
                                     console.log('UI Builder - Running export.r')
                                     
                                     reb.Elide(new uiDB().decodeURI(uiExport, false))
+                                    
+                                    console.log('UI Builder - Running custom code')
+                                    
+                                    // TODO: get uiDB to return a blank string when no data exists
+                                    let code = new uiDB().decodeURI(uiCode, false)
+                                    if (code !== 'data:application/rebol;base64,') {
+                                        reb.Elide(code)
+                                    }
                                     
                                     if (! (hasWasm && hasThreads)) {
                                         var msg = '<i class="fas fa-exclamation-triangle fa-2x"></i><h3>Performance Warning</h3><br><br>Your browser does not have WebAssembly Threads or SharedArrayBuffer enabled. This application runs much faster when those are turned on. Please consider enabling this by following these <a href="https://github.com/hostilefork/replpad-js/wiki/Enable-WASM-Threads" target="_blank">instructions</a>.'

@@ -112,6 +112,12 @@ ui-parse: function [
         
         |
         
+        "debug"
+            (matched: true)
+            (ui-debug)
+        
+        |
+        
         skip
     ] ]
     
@@ -258,6 +264,16 @@ ui-video: js-native [
     
     // http://www.youtube.com/embed/dQw4w9WgXcQ (doesn't work on file://)
     // http://www.youtube.com/embed/cSp1dM2Vj48
+    
+    // ui-video-play: js-native [] {
+    //     let video = document.querySelector('[data-type="video"]')
+    //     video.contentWindow.postMessage('{"event": "command", "func": "playVideo", "args": ""}', '*')
+    // }
+    // 
+    // ui-video-stop: js-native [] {
+    //     let video = document.querySelector('[data-type="video"]')
+    //     video.contentWindow.postMessage('{"event": "command", "func": "stopVideo", "args": ""}', '*')
+    // }
     
     // TODO: detect https:// and update the url to match
     
@@ -438,6 +454,10 @@ ui-export-download: js-native [
     
     content = content.replace('<!--APP-->', html)
     
+    // Note: this had to be done in JavaScript because Ren-C is not seeing global variables
+    let code = document.querySelector('#code').value
+    content = content.replace('%CODE%', btoa(code))
+    
     var buffer = new ArrayBuffer(content.length)
     var dataView = new DataView(buffer)
     
@@ -458,6 +478,18 @@ ui-export-download: js-native [
     link.click()
     
     document.body.removeChild(link)
+}
+
+ui-debug: js-native [] {
+    if (debug === false) {
+        console.log('UI Builder - Debugging On')
+        
+        // prevents the console from outputting NULL
+        setTimeout(function () { debug = true }, 500)
+    } else {
+        console.log('UI Builder - Debugging Off')
+        debug = false
+    }
 }
 
 ; TODO: get export [html] working

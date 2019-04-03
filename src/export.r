@@ -11,11 +11,10 @@ lib/write-stdout: write-stdout: function [
 ][
     if char? text [text: my to-text]
     
-    ; log errors only
-    if find text "**" [ui-main-write text exit]
+    ; TODO: look into stripping the extra whitespace
+    trim/with text ">>"
     
-    ; or probe debugging
-    if find text "^"" [if text <> "^"^"" [ui-main-write text]]
+    ui-main-write text
 ]
 
 lib/input: input: js-awaiter [
@@ -36,7 +35,7 @@ ui-main-read: js-awaiter [
 ]{
     let url = reb.Spell(reb.ArgR('url'))
     
-    let response = await fetch(url)
+    let response = await fetch(url, { cache: 'no-store' })
     let buffer = await response.arrayBuffer()
     
     return reb.Binary(buffer)
@@ -46,19 +45,10 @@ ui-main-write: js-awaiter [
     log [text!]
 ]{
     let log = reb.Spell(reb.ArgR('log'))
-    console.log(log)
+    
+    if (debug === true) {
+        console.log(log)
+    }
 }
 
 ui-main: adapt 'console []
-
-; TODO: get API saving / loading working with Indexed DB
-
-ui-video-play: js-native [] {
-    let video = document.querySelector('[data-type="video"]')
-    video.contentWindow.postMessage('{"event": "command", "func": "playVideo", "args": ""}', '*')
-}
-
-ui-video-stop: js-native [] {
-    let video = document.querySelector('[data-type="video"]')
-    video.contentWindow.postMessage('{"event": "command", "func": "stopVideo", "args": ""}', '*')
-}

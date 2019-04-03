@@ -1,4 +1,5 @@
 var runCommand
+var debug = false
 
 var allElementIds = []
 var currentToggle = { id: '', border: '' }
@@ -185,13 +186,21 @@ document.addEventListener('click', function(e) {
             case 'currentRemove' :
                 removeCurrent()
                 break
+            case 'codeButtonSave' :
+                // TODO: put into a function and add error handling
+                let code = document.querySelector('#code').value
+                if (code != '') { runCommand(code) }
+                
+                document.querySelector('#input').focus()
+                
+                break
         }
     }
 })
 
 document.querySelector('#input').onkeydown = function(e) {
     if (e.keyCode == 13) {
-        var command = "ui-parse {" + this.value + "}"
+        var command = 'ui-parse {' + this.value + '}'
         
         // see lib/input @ export.r
         runCommand(command)
@@ -220,7 +229,7 @@ document.querySelector('#upload').onchange = function(e) {
     }
     
     /* Note: The upload is so quick that this loading screen is not needed,
-             but we may have to revisit this when we start parsing the Rebol code
+             but we may have to revisit this when we start parsing larger documents
     
     var loader = document.createElement('div')
     loader.insertAdjacentHTML('beforeend', '<h3><i class="fas fa-circle-notch fa-spin uk-margin-small-right"></i>Uploading your design ...</h3>')
@@ -290,7 +299,7 @@ window.addEventListener('load', function() {
                 )
                 
                 // grab the UI Builder functions
-                return fetch('index.r')
+                return fetch('index.r', { cache: 'no-store' })
                 .then(function(response) {
                     return response.text()
                 })
@@ -299,7 +308,7 @@ window.addEventListener('load', function() {
                     reb.Elide(text)
                     
                     // grab the Ren-C functions
-                    return fetch('export.r')
+                    return fetch('export.r', { cache: 'no-store' })
                     .then(function(response) {
                         return response.text()
                     })

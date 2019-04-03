@@ -105,6 +105,10 @@
                     </div>
                 </div>
                 
+                <div class="uk-margin-medium-top uk-text-center">
+                    <button class="uk-button uk-button-small uk-button-secondary" uk-toggle="target: #codeEditor"><i class="fas fa-code uk-margin-small-right"></i>Code Editor</button>
+                </div>
+                
                 <div id="currentStyles" uk-offcanvas="flip: true">
                     <div class="uk-offcanvas-bar">
                         <button class="uk-offcanvas-close" type="button" uk-close></button>
@@ -122,6 +126,18 @@
                         <h1 class="uk-heading-bullet">Classes</h1>
                         
                         This will allow you to adjust the element's classes.
+                    </div>
+                </div>
+                
+                <div id="codeEditor" uk-offcanvas="flip: true">
+                    <div class="uk-offcanvas-bar">
+                        <button class="uk-offcanvas-close" type="button" uk-close></button>
+                        
+                        <h1 class="uk-heading-bullet">Code Editor</h1>
+                        
+                        <textarea id="code" class="uk-textarea uk-width-1-1"></textarea>
+                        
+                        <button id="codeButtonSave" class="uk-button uk-button-small uk-button-secondary uk-align-right" uk-toggle="target: #codeEditor"><i class="fas fa-save uk-margin-small-right"></i>Save</button>
                     </div>
                 </div>
             </div>
