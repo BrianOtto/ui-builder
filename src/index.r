@@ -493,6 +493,5 @@ ui-debug: js-native [] {
 }
 
 ; TODO: get export [html] working
-; TODO: get importing an exported app working
 ; TODO: allow command history navigation with arrows
 ; TODO: get the UI to display properly on mobile
