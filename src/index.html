@@ -23,6 +23,11 @@
     <div id="app">
         <div id="header" class="uk-width-1-1">
             <img src="logo.png" width="25" height="25">&nbsp;&nbsp;UI Builder
+            
+            <div class="uk-align-right" uk-form-custom>
+                <input id="upload" type="file" multiple>
+                <button class="uk-button uk-button-small uk-button-secondary"><i class="fas fa-upload uk-margin-small-right"></i>Upload</button>
+            </div>
         </div>
         
         <div id="root" class="uk-grid-divider uk-width-1-1" uk-grid>
@@ -95,11 +100,6 @@
                         
                         <div class="uk-grid-small uk-margin-remove-top" uk-grid>
                             <div class="uk-width-1-5 uk-text-right"><strong>export</strong></div>
-                            <div class="uk-width-expand"></div>
-                        </div>
-                        
-                        <div class="uk-grid-small uk-margin-remove-top" uk-grid>
-                            <div class="uk-width-1-5 uk-text-right"><strong>exit</strong></div>
                             <div class="uk-width-expand"></div>
                         </div>
                     </div>

@@ -202,6 +202,38 @@ document.querySelector('#input').onkeydown = function(e) {
     }
 }
 
+document.querySelector('#upload').onchange = function(e) {
+    let file = e.target.files[0]
+    if (!file) { return }
+    
+    var reader = new FileReader()
+    reader.onload = function(e) {
+        var contents = e.target.result
+        
+        var html = document.createElement('html')
+        html.innerHTML = contents
+        
+        let body = html.querySelector('body').innerHTML
+        document.querySelector('#canvas').innerHTML = body
+        
+        // document.querySelector('#loader').remove()
+    }
+    
+    /* Note: The upload is so quick that this loading screen is not needed,
+             but we may have to revisit this when we start parsing the Rebol code
+    
+    var loader = document.createElement('div')
+    loader.insertAdjacentHTML('beforeend', '<h3><i class="fas fa-circle-notch fa-spin uk-margin-small-right"></i>Uploading your design ...</h3>')
+    loader.id = 'loader'
+    
+    let canvas = document.querySelector('#canvas')
+    canvas.insertBefore(loader, canvas.firstChild)
+    
+    */
+    
+    reader.readAsText(file)
+}
+
 window.addEventListener('load', function() {
     document.querySelector('#input').focus()
     

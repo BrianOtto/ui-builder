@@ -56,6 +56,11 @@
     padding: 10px;
 }
 
+#app > #header button {
+    position: relative;
+    bottom: 1.5px;
+}
+
 #app > #root {
     padding-top: 40px;
     
@@ -66,6 +71,17 @@
 
 #app > #root > #canvas {
     padding-left: 40px;
+}
+
+#app > #root > #canvas > #loader {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#app > #root > #canvas > #loader .fa-circle-notch {
+    position: relative;
+    top: 1px;
 }
 
 #app > #root > #info #currentShowHide {
