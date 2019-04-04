@@ -22,12 +22,7 @@ lib/input: input: js-awaiter [
 ]{
     return new Promise(function(resolve, reject) {
         runCommand = function(text) {
-            try {
-                resolve(reb.Text(text))
-            } catch(e) {
-                console.log('UI Builder - Fatal Error!', e)
-                // TODO: Can't delete XXX in JS_NATIVES table
-            }
+            resolve(reb.Text(text))
         }
     })
 }
