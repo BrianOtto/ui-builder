@@ -27,7 +27,7 @@ ui-parse: function [
             (id: mold "" parts: split params " ")
             
             (if not void? attempt [
-                if find ["text" "icon" "video"] element [
+                if find ["text" "icon" "image" "video"] element [
                     either (length? parts) == 0 [
                         ui-error "You are missing a required parameter"
                         return
@@ -247,6 +247,34 @@ ui-icon: js-native [
     }
 }
 
+ui-image: js-native [
+    id [text!]
+    url [text!]
+    /add
+    /more
+]{
+    var id = reb.Spell(reb.ArgR('id'))
+    let url = reb.Spell(reb.ArgR('url'))
+    let add = reb.Did(reb.ArgR('add'))
+    let more = reb.Did(reb.ArgR('more'))
+    
+    if (id == '') {
+        id = newId('image')
+    }
+    
+    // TODO: detect https:// and update the url to match
+    
+    var image = document.createElement('img')
+    image.setAttribute('data-type', 'image')
+    image.className = 'uk-align-center'
+    image.src = url
+    image.id = id
+    
+    if (add == 1) {
+        addElement(image, more)
+    }
+}
+
 ui-video: js-native [
     id [text!]
     url [text!]
@@ -290,6 +318,98 @@ ui-video: js-native [
     
     if (add == 1) {
         addElement(video, more)
+    }
+}
+
+ui-input: js-native [
+    id [text!]
+    /add
+    /more
+]{
+    var id = reb.Spell(reb.ArgR('id'))
+    let add = reb.Did(reb.ArgR('add'))
+    let more = reb.Did(reb.ArgR('more'))
+    
+    if (id == '') {
+        id = newId('input')
+    }
+    
+    var input = document.createElement('input')
+    input.setAttribute('data-type', 'input')
+    input.className = 'uk-input'
+    input.id = id
+    
+    if (add == 1) {
+        addElement(input, more)
+    }
+}
+
+ui-textarea: js-native [
+    id [text!]
+    /add
+    /more
+]{
+    var id = reb.Spell(reb.ArgR('id'))
+    let add = reb.Did(reb.ArgR('add'))
+    let more = reb.Did(reb.ArgR('more'))
+    
+    if (id == '') {
+        id = newId('textarea')
+    }
+    
+    var textarea = document.createElement('textarea')
+    textarea.setAttribute('data-type', 'textarea')
+    textarea.className = 'uk-textarea'
+    textarea.id = id
+    
+    if (add == 1) {
+        addElement(textarea, more)
+    }
+}
+
+ui-checkbox: js-native [
+    id [text!]
+    /add
+    /more
+]{
+    var id = reb.Spell(reb.ArgR('id'))
+    let add = reb.Did(reb.ArgR('add'))
+    let more = reb.Did(reb.ArgR('more'))
+    
+    if (id == '') {
+        id = newId('checkbox')
+    }
+    
+    var checkbox = document.createElement('checkbox')
+    checkbox.setAttribute('data-type', 'checkbox')
+    checkbox.className = 'uk-checkbox'
+    checkbox.id = id
+    
+    if (add == 1) {
+        addElement(checkbox, more)
+    }
+}
+
+ui-radio: js-native [
+    id [text!]
+    /add
+    /more
+]{
+    var id = reb.Spell(reb.ArgR('id'))
+    let add = reb.Did(reb.ArgR('add'))
+    let more = reb.Did(reb.ArgR('more'))
+    
+    if (id == '') {
+        id = newId('radio')
+    }
+    
+    var radio = document.createElement('radio')
+    radio.setAttribute('data-type', 'radio')
+    radio.className = 'uk-radio'
+    radio.id = id
+    
+    if (add == 1) {
+        addElement(radio, more)
     }
 }
 
