@@ -200,18 +200,28 @@ document.addEventListener('click', function(e) {
     }
 })
 
-document.querySelector('#input').onkeydown = function(e) {
-    if (e.keyCode == 13) {
-        var command = 'ui-parse {' + this.value + '}'
-        
-        // see lib/input @ export.r
-        runCommand(command)
-        
-        this.value = ''
-        
-        e.preventDefault()
+document.addEventListener('keydown', function(e) {
+    if (e.target) {
+        if (e.target.id == 'input') {
+            if (e.keyCode == 13) {
+                var command = 'ui-parse {' + e.target.value + '}'
+                
+                // see lib/input @ export.r
+                runCommand(command)
+                
+                e.target.value = ''
+                
+                e.preventDefault()
+            }
+        } else {
+            let dataType = e.target.getAttribute('data-type')
+            
+            if (dataType == 'input' || dataType == 'textarea') {
+                e.target.setAttribute('value', e.target.value) 
+            }
+        }
     }
-}
+})
 
 document.querySelector('#upload').onchange = function(e) {
     let file = e.target.files[0]
