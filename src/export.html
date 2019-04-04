@@ -66,10 +66,7 @@
                     console.log('UI Builder - lib.js to URL', result)
                     
                     var script = document.createElement('script')
-                    
-                    // Chrome turns URL blobs into file:/// and these don't accept ? params
-                    // TODO: This may lead to caching issues. I will have to test this and see.
-                    script.src = result + ((result.includes('file:///')) ? '' : '?v=' + new Date().getTime())
+                    script.src = result
                     
                     script.onload = function() {
                         console.log('UI Builder - lib.js loaded', result)
