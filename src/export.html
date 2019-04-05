@@ -59,7 +59,7 @@
         if (hasWasm && hasThreads && hasAccess) {
             console.log('UI Builder - Using Emscripten')
         } else {
-            let note = (hasAccess === false) ? ' (due to access restrictions)' : ''
+            let note = (hasAccess === false && hasThreads == true) ? ' (due to access restrictions)' : ''
             console.log('UI Builder - Using Emterpreter' + note)
             uiLib = uiLibEmt
         }
