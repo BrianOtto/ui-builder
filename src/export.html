@@ -104,9 +104,7 @@
                                     console.log('UI Builder - Running custom code')
                                     
                                     let code = new uiDB().decodeURI(uiCode, false)
-                                    if (typeof code !== 'undefined') {
-                                        reb.Elide(code)
-                                    }
+                                    if (code !== '') { reb.Elide(code) }
                                     
                                     if (! (hasWasm && hasThreads)) {
                                         var msg = '<i class="fas fa-exclamation-triangle fa-2x"></i><h3>Performance Warning</h3><br><br>Your browser does not have WebAssembly Threads or SharedArrayBuffer enabled. This application runs much faster when those are turned on. Please consider enabling this by following these <a href="https://github.com/hostilefork/replpad-js/wiki/Enable-WASM-Threads" target="_blank">instructions</a>.'
