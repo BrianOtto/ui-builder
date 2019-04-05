@@ -103,9 +103,8 @@
                                     
                                     console.log('UI Builder - Running custom code')
                                     
-                                    // TODO: get uiDB to return a blank string when no data exists
                                     let code = new uiDB().decodeURI(uiCode, false)
-                                    if (code !== 'data:application/rebol;base64,') {
+                                    if (typeof code !== 'undefined') {
                                         reb.Elide(code)
                                     }
                                     
