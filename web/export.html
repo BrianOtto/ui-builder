@@ -37,6 +37,13 @@
         
         /*UI-DB*/
         
+        var hasAccess = true
+        
+        // Chrome does not allow workers access to Indexed DB when running locally
+        if (location.href.substring(0, 8) === 'file:///' && !!window.chrome) {
+            hasAccess = false
+        }
+        
         let hasWasm = typeof WebAssembly === 'object'
         let hasShared = typeof SharedArrayBuffer !== 'undefined'
         var hasThreads = false
@@ -49,10 +56,11 @@
             hasThreads = (test.buffer instanceof SharedArrayBuffer)
         }
         
-        if (hasWasm && hasThreads) {
+        if (hasWasm && hasThreads && hasAccess) {
             console.log('UI Builder - Using Emscripten')
         } else {
-            console.log('UI Builder - Using Emterpreter')
+            let note = (hasAccess === false) ? ' (due to access restrictions)' : ''
+            console.log('UI Builder - Using Emterpreter' + note)
             uiLib = uiLibEmt
         }
         
@@ -66,10 +74,7 @@
                     console.log('UI Builder - lib.js to URL', result)
                     
                     var script = document.createElement('script')
-                    
-                    // Chrome turns URL blobs into file:/// and these don't accept ? params
-                    // TODO: This may lead to caching issues. I will have to test this and see.
-                    script.src = result + ((result.includes('file:///')) ? '' : '?v=' + new Date().getTime())
+                    script.src = result
                     
                     script.onload = function() {
                         console.log('UI Builder - lib.js loaded', result)
