@@ -316,6 +316,12 @@ window.addEventListener('load', function() {
                 // init Ren-C
                 reb.Startup()
                 
+                // init the system path to the web root
+                reb.Elide(
+                    'change-dir system/options/path: as url!',
+                    reb.T('/')
+                )
+                
                 // load the extensions
                 reb.Elide(
                     'for-each collation builtin-extensions',
