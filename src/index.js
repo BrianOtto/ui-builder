@@ -6,6 +6,7 @@ var saveEventTimeout = null
 
 var allElementIds = []
 var currentToggle = { id: '', border: '' }
+var currentRemove = { parentNode: null, element: null }
 
 newId = function(type) {
     let max = allElementIds.length
@@ -155,6 +156,9 @@ removeCurrent = function(hideOnly) {
         showError('You can not remove the canvas')
     } else {
         var parentNode = element.parentNode
+        
+        currentRemove.parentNode = parentNode
+        currentRemove.element = element
         
         element.remove()
         

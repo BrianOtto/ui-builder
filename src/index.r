@@ -82,6 +82,18 @@ ui-parse: function [
         
         |
         
+        ["remove" | "delete"]
+            (matched: true)
+            (ui-remove)
+        
+        |
+        
+        "undo"
+            (matched: true)
+            (ui-remove/undo)
+        
+        |
+        
         "hide " copy type to end
             (matched: true)
             (trim type)
@@ -482,6 +494,24 @@ ui-move: js-native [
         updateCurrent(elementClone)
     } else {
         showError('You have entered an invalid element (' + id + ')')
+    }
+}
+
+ui-remove: js-native [
+    /undo
+] {
+    let undo = reb.Did(reb.ArgR('undo'))
+    
+    if (undo == 1) {
+        if (currentRemove.parentNode) {
+            currentRemove.parentNode.appendChild(currentRemove.element)
+            updateCurrent(currentRemove.parentNode.lastChild)
+        }
+        
+        currentRemove.parentNode = null
+        currentRemove.element = null
+    } else {
+        removeCurrent()
     }
 }
 
