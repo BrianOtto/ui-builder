@@ -1,6 +1,8 @@
 var runCommand
 var debug = false
 
+var saveStyleTimeout = null
+
 var allElementIds = []
 var currentToggle = { id: '', border: '' }
 
@@ -213,6 +215,19 @@ document.addEventListener('keydown', function(e) {
                 
                 e.preventDefault()
             }
+        } else if (e.target.classList.contains('currentStylesInput')) {
+            if (saveStyleTimeout) {
+                clearTimeout(saveStyleTimeout)
+            }
+            
+            saveStyleTimeout = setTimeout(function() {
+                var current = document.querySelector('#currentId')
+                var element = document.querySelector('#' + current.innerHTML)
+                
+                element.style[e.target.getAttribute('data-property')] = e.target.value
+                
+                showAlert('The element\'s style has been updated')
+            }, 2000)
         } else {
             let dataType = e.target.getAttribute('data-type')
             
@@ -355,4 +370,26 @@ window.addEventListener('load', function() {
     }
     
     setTimeout(workersAreLoaded, 0)
+})
+
+UIkit.util.on('#currentStyles', 'show', function () {
+    var current = document.querySelector('#currentId')
+    var element = document.querySelector('#' + current.innerHTML)
+    
+    let elementCSS = window.getComputedStyle(element)
+    var elementStyles = '<table cellpadding="5" cellspacing="0">'
+    
+    for (var i = 0; i < elementCSS.length; i++) {
+        let propName  = elementCSS[i]
+        let propValue = elementCSS.getPropertyValue(elementCSS[i])
+        
+        elementStyles += '<tr>'
+        elementStyles += '<td>' + propName + '</td>'
+        elementStyles += '<td><input type="text" class="uk-input uk-form-small currentStylesInput" value="' + propValue + '" data-property="' + propName + '"></td>'
+        elementStyles += '</tr>'
+    }
+    
+    elementStyles += '</table>'
+    
+    document.querySelector('#currentStylesList').insertAdjacentHTML('beforeend', elementStyles)
 })

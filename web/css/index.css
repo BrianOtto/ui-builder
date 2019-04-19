@@ -31,7 +31,7 @@
 }
 
 .uk-offcanvas-bar {
-    width: 450px;
+    width: 550px;
 }
 
 .uk-tooltip {
@@ -86,6 +86,12 @@
 
 #app > #root > #info #currentShowHide {
     width: 72px;
+}
+
+#currentStyles #currentStylesList {
+    padding-right: 10px;
+    overflow-y: scroll;
+    max-height: 77vh;
 }
 
 #codeEditor > div {
