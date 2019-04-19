@@ -2,6 +2,7 @@ var runCommand
 var debug = false
 
 var saveStyleTimeout = null
+var saveEventTimeout = null
 
 var allElementIds = []
 var currentToggle = { id: '', border: '' }
@@ -227,7 +228,20 @@ document.addEventListener('keydown', function(e) {
                 element.style[e.target.getAttribute('data-property')] = e.target.value
                 
                 showAlert('The element\'s style has been updated')
-            }, 2000)
+            }, 1500)
+        } else if (e.target.classList.contains('currentEventsInput')) {
+            if (saveEventTimeout) {
+                clearTimeout(saveEventTimeout)
+            }
+            
+            saveEventTimeout = setTimeout(function() {
+                var current = document.querySelector('#currentId')
+                var element = document.querySelector('#' + current.innerHTML)
+                
+                element.setAttribute(e.target.getAttribute('data-event'), e.target.value)
+                
+                showAlert('The element\'s event has been updated')
+            }, 1500)
         } else {
             let dataType = e.target.getAttribute('data-type')
             
@@ -377,7 +391,7 @@ UIkit.util.on('#currentStyles', 'show', function () {
     var element = document.querySelector('#' + current.innerHTML)
     
     let elementCSS = window.getComputedStyle(element)
-    var elementStyles = '<table cellpadding="5" cellspacing="0">'
+    var elementStyles = '<table cellpadding="5" cellspacing="0" width="100%">'
     
     for (var i = 0; i < elementCSS.length; i++) {
         let propName  = elementCSS[i]
@@ -391,5 +405,28 @@ UIkit.util.on('#currentStyles', 'show', function () {
     
     elementStyles += '</table>'
     
-    document.querySelector('#currentStylesList').insertAdjacentHTML('beforeend', elementStyles)
+    document.querySelector('#currentStylesList').innerHTML = elementStyles
+})
+
+UIkit.util.on('#currentEvents', 'show', function () {
+    var current = document.querySelector('#currentId')
+    var element = document.querySelector('#' + current.innerHTML)
+    
+    var elementEvents = '<table cellpadding="5" cellspacing="0" width="100%">'
+    
+    for (i in element) {
+        if (i.substr(0, 2) == 'on') {
+            let eventName  = i
+            let eventValue = element.getAttribute(i) || ''
+            
+            elementEvents += '<tr>'
+            elementEvents += '<td>' + eventName + '</td>'
+            elementEvents += '<td><input type="text" class="uk-input uk-form-small currentEventsInput" value="' + eventValue + '" data-event="' + eventName + '"></td>'
+            elementEvents += '</tr>'
+        }
+    }
+    
+    elementEvents += '</table>'
+    
+    document.querySelector('#currentEventsList').innerHTML = elementEvents
 })

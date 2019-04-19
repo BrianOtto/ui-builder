@@ -88,7 +88,8 @@
     width: 72px;
 }
 
-#currentStyles #currentStylesList {
+#currentStyles #currentStylesList,
+#currentEvents #currentEventsList {
     padding-right: 10px;
     overflow-y: scroll;
     max-height: 77vh;

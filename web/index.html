@@ -58,7 +58,7 @@
                         <div class="uk-margin-top uk-text-center">
                             <button class="uk-button uk-button-small uk-button-secondary" id="currentShowHide" disabled>Show</button>
                             <button class="uk-button uk-button-small uk-button-secondary uk-margin-small-left" uk-toggle="target: #currentStyles">Styles</button>
-                            <button class="uk-button uk-button-small uk-button-secondary uk-margin-small-left" uk-toggle="target: #currentClasses">Classes</button>
+                            <button class="uk-button uk-button-small uk-button-secondary uk-margin-small-left" uk-toggle="target: #currentEvents">Events</button>
                             <button class="uk-button uk-button-small uk-button-secondary uk-margin-small-left" id="currentRemove"><i class="fas fa-trash"></i></button>
                         </div>
                     </div>
@@ -124,13 +124,13 @@
                     </div>
                 </div>
                 
-                <div id="currentClasses" uk-offcanvas="flip: true">
+                <div id="currentEvents" uk-offcanvas="flip: true">
                     <div class="uk-offcanvas-bar">
                         <button class="uk-offcanvas-close" type="button" uk-close></button>
                         
-                        <h1 class="uk-heading-bullet">Classes</h1>
+                        <h1 class="uk-heading-bullet">Events</h1>
                         
-                        This will allow you to adjust the element's classes.
+                        <div id="currentEventsList"></div>
                     </div>
                 </div>
                 
