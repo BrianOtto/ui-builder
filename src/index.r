@@ -645,3 +645,4 @@ ui-debug: js-native [] {
 ; TODO: get export [html] working
 ; TODO: allow command history navigation with arrows
 ; TODO: get the UI to display properly on mobile
+; TODO: add image uploader and JS startup code and api checkboxes
