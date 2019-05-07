@@ -20,7 +20,7 @@ If you make changes to the project then you will need to run the [build script](
 
 ## Documentation
 
-UI Builder only supports a limited set of elements right now, and so documentation will only become available when more is added. A good introduction on how to use the app is to follow along with the original [demo](https://brianotto.github.io/ui-builder/doc/demo).
+UI Builder only supports a limited set of elements right now, and so documentation will become available when more is added. A good introduction on how to use the app is to follow along with the original [demo](https://brianotto.github.io/ui-builder/doc/demo).
 
 I will also be adding example templates that can be used as a starting point for your apps.
 
