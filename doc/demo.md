@@ -1,6 +1,6 @@
 To run the demo you will need to use Firefox or Chrome and have a couple [browser flags](https://github.com/hostilefork/replpad-js/wiki/Enable-WASM-Threads) enabled for WASM and PTHREADS.
 
-Start by running the online demo located at https://brianotto.github.io/ui-builder/web/
+Start by running the online demo located at [https://brianotto.github.io/ui-builder/web/](https://brianotto.github.io/ui-builder/web/)
 
 So let's build a simple video player ...
 
