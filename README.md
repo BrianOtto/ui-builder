@@ -16,11 +16,13 @@ Install a web server and point it to the [web](web) directory.
 
 ## Build Instructions
 
-If you make changes to the project then you will need to run the [build script](build.bat) to generate new files in the web directory. This build script only works in Windows right now, but there will be a bash script for Linux / macOS soon.
+If you make changes to the project then you will need to run the [build script](build.bat) to generate new files in the web directory. This build script only works in Windows right now, but there will eventually be a bash script for Linux / macOS.
 
 ## Documentation
 
-UI Builder only supports a limited set of elements right now. Documentation will become available as more is added. I will also be adding example templates that can be used as a starting point for your apps.
+UI Builder only supports a limited set of elements right now, and documentation will become available as more is added. A good introduction on how to use the app is to follow along with the original [demo](https://brianotto.github.io/ui-builder/doc/demo).
+
+I will also be adding example templates that can be used as a starting point for your apps.
 
 ## 3rd Party Libraries
 
