@@ -110,7 +110,7 @@ Okay, so now you have a working video player. Let's hide those layout borders, a
 
 `hide layout`
 
-![ui-builder-screen](https://brianotto.github.io/ui-builder/screenshot.png?raw=true)
+![ui-builder-screenshot](https://raw.githubusercontent.com/BrianOtto/ui-builder/master/screenshot.png)
 
 Additionally, the app has commands for a few other things I didn't cover. You can move elements around to different parents, hide/show the ids of all elements on the page (in case you've forgotten what they're named), and the **Styles** and **Events** buttons open a sidebar that lets you manually update all the styles at once, or add event handling.
 
